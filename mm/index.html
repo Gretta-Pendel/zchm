@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Заклятье черного мага</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            margin: 0;
+            color: black;
+            font-family: Calibri, 'Trebuchet MS', sans-serif;
+            font-size: large;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            grid-template-areas: "head head" "aside main" "foot foot";
+        }
+
+        header {
+            grid-area: head;
+        }
+
+        nav {
+            grid-area: aside;
+            background-color: beige;
+            padding: 0 0 1rem 0;
+            width: 250px;
+            height: 100%;
+        }
+
+        nav>ul {
+            position: fixed;
+            width: calc(250px - 2rem);
+            height: 90%;
+            overflow-y: scroll;
+            padding-left: 20px;
+        }
+
+        nav>ul>li {
+            font-size: 1rem;
+            list-style-type: none;
+        }
+
+        main {
+            grid-area: main;
+            padding: 1rem 2rem;
+        }
+
+        main img {
+            max-width: 100%;
+            max-height: 800px;
+        }
+
+        main>div {
+            position: relative;
+            max-width: 600px;
+        }
+
+        .mob {
+            position: absolute;
+            top: 3rem;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .stats {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .text {
+            text-shadow: 0 0 2px white;
+            ;
+        }
+
+        footer {
+            grid-area: foot;
+        }
+
+        /*table {
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 0 .5rem;
+            border-bottom: 1px solid #999;
+        }
+
+        .inset {
+            margin: 1rem;
+            padding: 0 1rem .5rem;
+            background-color: #ddd;
+            float: right;
+            max-width: 30%;
+        }
+
+        i {
+            color: navy;
+            background-color: #eee
+        }
+
+        span {
+            border-bottom: 1px dotted #000;
+            font-weight: 600;
+        }*/
+    </style>
+    <script src="mm.js"></script>
+</head>
+
+<body>
+    <header></header>
+    <nav>
+        <ul></ul>
+    </nav>
+    <main>
+    </main>
+    <script>
+        let nav = document.querySelector("nav ul");
+        let main = document.querySelector("main");
+        for (const key in mm) {
+            if (Object.hasOwnProperty.call(mm, key)) {
+                const el = mm[key];
+
+                let li = document.createElement("li");
+                li.innerHTML = `<a href="#id_${el.id}">${el.name}</a>`;
+                nav.append(li);
+
+                let div = document.createElement("div");
+
+                let h3 = document.createElement("h3");
+                h3.setAttribute("id", `id_${el.id}`);
+                h3.innerText = el.name;
+                div.append(h3);
+
+                let mob = document.createElement("div");
+                mob.setAttribute("class", "mob");
+
+                let img = document.createElement("img");
+                img.setAttribute("alt", `id_${el.id}`);
+                img.setAttribute("src", `images/ZChM Bestiari-${el.id}.jpg`);
+                div.append(img);
+
+                let stats = document.createElement("div");
+                stats.setAttribute("class", "stats");
+                stats.innerHTML =
+                    `${el.level || el.attacks || el.armor ? "<div>" : ""}` +
+                    `${el.level ? "🎚️ <b>" + el.level + "</b> [уровень]<br>" : ""}` +
+                    `${el.attacks ? "⚔️ <b>" + el.attacks + "</b> [атаки]<br>" : ""}` +
+                    `${el.armor ? "🛡️ <b>" + el.armor + "</b> [защита]<br>" : ""}` +
+                    `${el.level || el.attacks || el.armor ? "</b></div>" : ""}` +
+                    `${el.bravery || el.mana || el.hp || el.exp ? "</b><div>" : ""}` +
+                    `${el.bravery ? "💥 <b>" + el.bravery + "</b> [храбрость]<br>" : ""}` +
+                    `${el.mana ? "💙 <b>" + el.mana + "</b> [мана]<br>" : ""}` +
+                    `${el.hp ? "❤️ <b>" + el.hp + "</b> [жизни]<br>" : ""}` +
+                    `${el.exp ? "⏫ <b>" + el.exp + "</b> [очки]" : ""}` +
+                    `${el.bravery || el.mana || el.hp || el.exp ? "</div>" : ""}`;
+
+                let text = document.createElement("div");
+                text.setAttribute("class", "text");
+                text.innerText = el.text;
+
+                mob.append(stats);
+                mob.append(text);
+                div.append(mob);
+                main.append(div);
+            }
+        }
+    </script>
+</body>
+
+</html>
